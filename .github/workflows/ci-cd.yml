@@ -1,0 +1,50 @@
+name: Aura Enterprise CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: aura_user
+          POSTGRES_PASSWORD: aura_secure_password_2026
+          POSTGRES_DB: aura_db
+        ports:
+          - 5432:5432
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Monorepo Dependencies
+        run: npm ci
+
+      - name: Validate Prisma DB Schema
+        run: npm run prisma:generate
+
+      - name: Build Backend Service
+        run: npm run build --workspace=backend
+
+      - name: Build Frontend Application
+        run: npm run build --workspace=frontend
+
+      - name: Run Backend & Frontend Unit Tests
+        run: npm run test --if-present
