@@ -150,10 +150,10 @@ export default function Home() {
 
   return (
     <div className="space-y-6 pb-12">
-      
+
       {/* Top 24-Hour Stories Bar */}
       <div className="glass-panel p-4 rounded-3xl overflow-x-auto no-scrollbar flex items-center gap-4">
-        
+
         {/* Post Story Creator Button */}
         <div
           onClick={() => setIsCreateStoryOpen(true)}
@@ -176,13 +176,12 @@ export default function Home() {
         {stories.slice(1).map((s) => (
           <div key={s.id} className="flex flex-col items-center gap-1.5 cursor-pointer min-w-[70px] group">
             <div
-              className={`w-16 h-16 rounded-full p-0.5 transition-transform group-hover:scale-105 ${
-                s.isCloseFriends
-                  ? 'ring-2 ring-emerald-400 p-[2px] bg-emerald-500/20'
-                  : s.isFounder
+              className={`w-16 h-16 rounded-full p-0.5 transition-transform group-hover:scale-105 ${s.isCloseFriends
+                ? 'ring-2 ring-emerald-400 p-[2px] bg-emerald-500/20'
+                : s.isFounder
                   ? 'ring-2 ring-amber-400 p-[2px] bg-amber-500/20'
                   : 'insta-story-gradient'
-              }`}
+                }`}
             >
               <img
                 src={s.avatar}
@@ -215,11 +214,10 @@ export default function Home() {
             <button
               key={tab.id}
               onClick={() => dispatch(setActiveTab(tab.id as any))}
-              className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all duration-200 border ${
-                isActive
-                  ? 'bg-gradient-to-r from-amber-500 via-rose-500 to-purple-600 text-white border-transparent shadow-lg scale-105'
-                  : 'glass-panel text-slate-300 hover:bg-white/10 hover:text-white border-white/10'
-              }`}
+              className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all duration-200 border ${isActive
+                ? 'bg-gradient-to-r from-amber-500 via-rose-500 to-purple-600 text-white border-transparent shadow-lg scale-105'
+                : 'glass-panel text-slate-300 hover:bg-white/10 hover:text-white border-white/10'
+                }`}
             >
               <Icon className={`w-3.5 h-3.5 ${tab.color || ''}`} />
               <span>{tab.label}</span>
@@ -237,10 +235,13 @@ export default function Home() {
 
       {/* Post Story Modal */}
       <CreateStoryModal
-  isOpen={isCreateStoryOpen}
-  onClose={() => setIsCreateStoryOpen(false)}
-  onStoryCreated={(story) => {
-    console.log(story);
-    setIsCreateStoryOpen(false);
-  }}
-/>
+        isOpen={isCreateStoryOpen}
+        onClose={() => setIsCreateStoryOpen(false)}
+        onStoryCreated={(story) => {
+          console.log(story);
+          setIsCreateStoryOpen(false);
+        }}
+      />
+    </div>
+  );
+}
