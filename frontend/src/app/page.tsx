@@ -236,8 +236,11 @@ export default function Home() {
       </div>
 
       {/* Post Story Modal */}
-      <CreateStoryModal isOpen={isCreateStoryOpen} onClose={() => setIsCreateStoryOpen(false)} />
-
-    </div>
-  );
-}
+      <CreateStoryModal
+  isOpen={isCreateStoryOpen}
+  onClose={() => setIsCreateStoryOpen(false)}
+  onStoryCreated={(story) => {
+    console.log(story);
+    setIsCreateStoryOpen(false);
+  }}
+/>
