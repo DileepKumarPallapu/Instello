@@ -77,7 +77,10 @@ export function EditProfileModal() {
       role: currentUser?.role || 'USER',
       isVerified: currentUser?.isVerified || false,
       avatarUrl: avatarUrl, // Exact raw photo preserved!
-      following: currentUser?.following || ['dileepkumarpallapu07@gmail.com', 'instello_official'],
+      following: [
+  'dileepkumarpallapu07@gmail.com',
+  'instello_official'
+],
     };
 
     // Save to persistent device store
