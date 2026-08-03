@@ -46,9 +46,8 @@ export function PostCard({ post }: { post: any }) {
     }
   };
 
-  const isFounderAuthor = post.author?.username?.toLowerCase().includes('dileep') || 
-                          post.author?.username?.toLowerCase().includes('instello') ||
-                          (post.author?.fullName && post.author.fullName.toLowerCase().includes('dileep'));
+  // STRICT FOUNDER AUTHOR CHECK: ONLY AND EXCLUSIVELY dileepkumarpallapu07@gmail.com
+  const isFounderAuthor = post.author?.username?.toLowerCase() === 'dileepkumarpallapu07@gmail.com';
 
   return (
     <article className="glass-panel rounded-3xl p-5 border border-white/10 shadow-xl space-y-4 transition-all hover:border-white/20">
@@ -81,11 +80,11 @@ export function PostCard({ post }: { post: any }) {
               
               {post.author.isVerified && <CheckCircle2 className="w-4 h-4 text-[#0095F6] fill-[#0095F6]/20" />}
               
-              {/* FOUNDER & OFFICIAL PLATFORM BADGE */}
+              {/* FOUNDER & ARCHITECT BADGE - EXCLUSIVELY FOR dileepkumarpallapu07@gmail.com */}
               {isFounderAuthor && (
                 <span className="px-2 py-0.2 rounded-full bg-gradient-to-r from-amber-500 via-rose-500 to-purple-600 text-white text-[9px] font-black uppercase tracking-wider border border-amber-400/40 flex items-center gap-0.5">
                   <Crown className="w-2.5 h-2.5 text-amber-300" />
-                  <span>MANAGED BY FOUNDER 👑</span>
+                  <span>FOUNDER & ARCHITECT 👑</span>
                 </span>
               )}
             </div>

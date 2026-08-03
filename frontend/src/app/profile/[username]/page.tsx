@@ -79,10 +79,8 @@ export default function ProfilePage({ params }: { params: Promise<{ username: st
   // Query device storage for target user
   const targetDeviceUser = findUserFromDeviceStore(cleanUsername);
 
-  // Check if target is Founder Account (Pallapu Dileep Kumar)
-  const isFounderAccount = cleanUsername.toLowerCase().includes('dileep') || 
-                           cleanUsername.toLowerCase().includes('pallapu') || 
-                           (targetDeviceUser?.fullName && targetDeviceUser.fullName.toLowerCase().includes('dileep'));
+  // STRICT FOUNDER ACCOUNT CHECK: ONLY AND EXCLUSIVELY dileepkumarpallapu07@gmail.com
+  const isFounderAccount = cleanUsername.toLowerCase() === 'dileepkumarpallapu07@gmail.com';
 
   // Dynamic user identity resolution for ALL users
   const displayFullName = isOwnProfile && currentUser?.fullName
@@ -97,24 +95,28 @@ export default function ProfilePage({ params }: { params: Promise<{ username: st
     ? currentUser.avatarUrl
     : (targetDeviceUser?.avatarUrl || profileData?.profile?.avatarUrl || `https://api.dicebear.com/7.x/avataaars/svg?seed=${cleanUsername}`);
 
+  const userRole = isFounderAccount 
+    ? 'FOUNDER & ARCHITECT' 
+    : (isOwnProfile && currentUser?.role ? currentUser.role : (targetDeviceUser?.role || profileData?.user?.role || 'USER'));
+
   const user = {
     id: uniqueUserId,
     username: cleanUsername,
     fullName: displayFullName,
-    role: isFounderAccount ? 'FOUNDER & ARCHITECT' : (isOwnProfile && currentUser?.role ? currentUser.role : (targetDeviceUser?.role || profileData?.user?.role || 'USER')),
+    role: userRole,
     isVerified: isFounderAccount || (isOwnProfile && currentUser?.isVerified) || (targetDeviceUser?.isVerified) || false,
     avatarUrl: userAvatar,
   };
 
   const profile = profileData?.profile || {
     bio: isFounderAccount
-      ? 'Lead Creator, Chief Architect & Founder of the Instello platform ecosystem. ⚡'
-      : (isOwnProfile ? 'Building the next evolution of social media on Instello. ⚡' : `Welcome to @${user.username}'s space on Instello Platform.`),
+      ? 'Lead Creator, Chief Architect & Founder of Instello. ⚡'
+      : (isOwnProfile ? 'Building the next evolution of social media on Instello. ⚡' : `Welcome to @${user.username}'s space on Instello.`),
     avatarUrl: user.avatarUrl,
     coverUrl: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&auto=format&fit=crop&q=80',
     website: 'https://instello.app/' + user.username,
     location: 'Global Community',
-    skills: ['Instello Founder', 'Digital Arts', 'Spatial Web'],
+    skills: isFounderAccount ? ['Instello Founder', 'Digital Arts', 'Spatial Web'] : ['Instello Creator', 'Digital Arts'],
   };
 
   // Toggle Live Audio Playback
@@ -211,7 +213,7 @@ export default function ProfilePage({ params }: { params: Promise<{ username: st
 
               {user.isVerified && <CheckCircle2 className="w-5 h-5 text-[#0095F6] fill-[#0095F6]/20" />}
               
-              {/* FOUNDER & ARCHITECT TAG */}
+              {/* FOUNDER & ARCHITECT TAG - EXCLUSIVELY FOR dileepkumarpallapu07@gmail.com */}
               {isFounderAccount ? (
                 <span className="px-3 py-0.5 rounded-full bg-gradient-to-r from-amber-500 via-rose-500 to-purple-600 text-white text-[10px] font-black tracking-wider uppercase border border-amber-400/50 shadow-neon flex items-center gap-1">
                   <Crown className="w-3 h-3 text-amber-300" />
